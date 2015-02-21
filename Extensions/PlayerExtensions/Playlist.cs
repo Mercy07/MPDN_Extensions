@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -36,13 +37,15 @@ namespace Mpdn.PlayerExtensions.Playlist
             base.Initialize();
             form.Setup(this);
 
-            PlayerControl.PlayerStateChanged += OnPlayerStateChange;
+            PlayerControl.PlayerStateChanged += OnPlayerStateChanged;
+            PlayerControl.PlaybackCompleted += OnPlaybackCompleted;
             PlayerControl.FormClosed += OnFormClosed;
             PlayerControl.DragEnter += OnDragEnter;
             PlayerControl.DragDrop += OnDragDrop;
             PlayerControl.CommandLineFileOpen += OnCommandLineFileOpen;
             mpdnForm = PlayerControl.Form;
             mpdnForm.Move += OnMpdnFormMove;
+            mpdnForm.MainMenuStrip.MenuActivate += OnMpdnFormMainMenuActivated;
             form.Move += OnFormMove;
 
             if (Settings.RememberWindowBounds)
@@ -56,13 +59,14 @@ namespace Mpdn.PlayerExtensions.Playlist
                 form.Show(PlayerControl.VideoPanel);
             }
 
-            if (Settings.Autoplay)
+            if (Settings.AutomaticallyPlayFileOnStartup)
             {
-                form.Autoplay = Settings.Autoplay;
+                form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
             }
 
-            if (Settings.RememberLastPlayedFile)
+            if (Settings.RememberPreviouslyPlayedFile)
             {
+                form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFile;
                 string[] files = { Settings.LastPlayedFile };
                 form.AddFiles(files);
             }
@@ -70,25 +74,61 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         public override void Destroy()
         {
-            PlayerControl.PlayerStateChanged -= OnPlayerStateChange;
+            PlayerControl.PlayerStateChanged -= OnPlayerStateChanged;
+            PlayerControl.PlaybackCompleted -= OnPlaybackCompleted;
             PlayerControl.FormClosed -= OnFormClosed;
             PlayerControl.DragEnter -= OnDragEnter;
             PlayerControl.DragDrop -= OnDragDrop;
             PlayerControl.CommandLineFileOpen -= OnCommandLineFileOpen;
             mpdnForm.Move -= OnMpdnFormMove;
+            mpdnForm.MainMenuStrip.MenuActivate -= OnMpdnFormMainMenuActivated;
             form.Move -= OnFormMove;
 
             base.Destroy();
             form.Dispose();
         }
 
-        private void OnPlayerStateChange(object sender, EventArgs e)
+        private void OnMpdnFormMainMenuActivated(object sender, EventArgs e)
         {
-            if (!Settings.AddFileToPlaylistOnOpen) return;
-            if (PlayerControl.MediaFilePath == "") return;
-            var foundFile = form.Playlist.Find(i => i.FilePath == PlayerControl.MediaFilePath);
-            if (foundFile != null) return;
-            form.AddActiveFile(PlayerControl.MediaFilePath);
+            foreach (ToolStripMenuItem item in mpdnForm.MainMenuStrip.Items)
+            {
+                if (item.DropDownItems[0].Name == "mmenuQuickOpen")
+                {
+                    item.DropDownItems[0].Click -= OnMpdnFormOpenClick;
+                    item.DropDownItems[0].Click += OnMpdnFormOpenClick;
+                }
+
+                if (item.DropDownItems[1].Name == "openToolStripMenuItem")
+                {
+                    item.DropDownItems[1].Click -= OnMpdnFormOpenClick;
+                    item.DropDownItems[1].Click += OnMpdnFormOpenClick;
+                }
+            }
+        }
+
+        private void OnMpdnFormOpenClick(object sender, EventArgs e)
+        {
+            NewPlaylist();
+        }
+
+        private void OnPlayerStateChanged(object sender, EventArgs e)
+        {
+            if (Settings.AddFileToPlaylistOnOpen)
+            {
+                SetActiveFile();
+            }
+        }
+
+        private void OnPlaybackCompleted(object sender, EventArgs e)
+        {
+            if (Settings.AddFileToPlaylistOnOpen && form.Playlist.Count > 1)
+            {
+                AddFileToPlaylist();
+            }
+            if (Settings.PlayNextFileInDirectoryAfterPlayback)
+            {
+                PlayNextInFolder();
+            }
         }
 
         private void OnFormClosed(object sender, EventArgs e)
@@ -125,6 +165,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                 return new[]
                 {
                     new Verb(Category.File, string.Empty, "Open Playlist", "Ctrl+Alt+O", string.Empty, OpenPlaylist),
+                    new Verb(Category.File, string.Empty, "Add file to playlist", "Ctrl+Alt+A", string.Empty, AddFileToPlaylist),
                     new Verb(Category.View, string.Empty, "Playlist", "Ctrl+Alt+P", string.Empty, ViewPlaylist),
                     new Verb(Category.Play, Subcategory, "Next", "Ctrl+Alt+N", string.Empty, () => form.PlayNext()),
                     new Verb(Category.Play, Subcategory, "Previous", "Ctrl+Alt+B", string.Empty, () => form.PlayPrevious())
@@ -136,6 +177,35 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             var extension = Path.GetExtension(filename);
             return extension != null && extension.ToLower() == ".mpl";
+        }
+
+        private void SetActiveFile()
+        {
+            if (PlayerControl.PlayerState != PlayerState.Playing || form.Playlist.Count > 1) return;
+            if (!string.IsNullOrEmpty(PlayerControl.MediaFilePath) && form.CurrentItem != null &&
+                form.CurrentItem.FilePath != PlayerControl.MediaFilePath)
+            {
+                form.ActiveFile(PlayerControl.MediaFilePath);
+            }
+        }
+
+        private void PlayNextInFolder()
+        {
+            if (PlayerControl.MediaPosition != PlayerControl.MediaDuration) return;
+            form.PlayNextInFolder();
+        }
+
+        private void AddFileToPlaylist()
+        {
+            if (string.IsNullOrEmpty(PlayerControl.MediaFilePath)) return;
+            var foundFile = form.Playlist.Find(i => i.FilePath == PlayerControl.MediaFilePath);
+            if (foundFile != null) return;
+            form.AddActiveFile(PlayerControl.MediaFilePath);
+        }
+
+        private void NewPlaylist()
+        {
+            form.NewPlaylist();
         }
 
         private void OpenPlaylist()
@@ -166,7 +236,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                 if (files.Length == 1)
                 {
                     var filename = files[0];
-                    if (Playlist.IsPlaylistFile(filename))
+                    if (IsPlaylistFile(filename))
                     {
                         form.OpenPlaylist(filename);
                         return;
@@ -209,20 +279,22 @@ namespace Mpdn.PlayerExtensions.Playlist
     public class PlaylistSettings
     {
         public bool ShowPlaylistOnStartup { get; set; }
-        public bool Autoplay { get; set; }
+        public bool AutomaticallyPlayFileOnStartup { get; set; }
         public bool AddFileToPlaylistOnOpen { get; set; }
         public bool RememberWindowBounds { get; set; }
-        public bool RememberLastPlayedFile { get; set; }
+        public bool RememberPreviouslyPlayedFile { get; set; }
+        public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public Rectangle WindowBounds { get; set; }
         public string LastPlayedFile { get; set; }
 
         public PlaylistSettings()
         {
             ShowPlaylistOnStartup = false;
-            Autoplay = false;
+            AutomaticallyPlayFileOnStartup = false;
             AddFileToPlaylistOnOpen = false;
             RememberWindowBounds = false;
-            RememberLastPlayedFile = false;
+            RememberPreviouslyPlayedFile = false;
+            PlayNextFileInDirectoryAfterPlayback = false;
         }
     }
 }

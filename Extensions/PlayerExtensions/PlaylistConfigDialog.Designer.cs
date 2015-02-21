@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_playNextFileInDirectoryAfterPlayback = new System.Windows.Forms.CheckBox();
             this.cb_autoplay = new System.Windows.Forms.CheckBox();
             this.cb_showPlaylistOnStartup = new System.Windows.Forms.CheckBox();
             this.cb_addFileToPlaylistOnOpen = new System.Windows.Forms.CheckBox();
@@ -41,32 +42,43 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_playNextFileInDirectoryAfterPlayback);
             this.groupBox1.Controls.Add(this.cb_autoplay);
             this.groupBox1.Controls.Add(this.cb_showPlaylistOnStartup);
             this.groupBox1.Controls.Add(this.cb_addFileToPlaylistOnOpen);
             this.groupBox1.Controls.Add(this.cb_rememberLastPlayedFile);
             this.groupBox1.Controls.Add(this.cb_rememberWindowBounds);
-            this.groupBox1.Location = new System.Drawing.Point(11, 11);
+            this.groupBox1.Location = new System.Drawing.Point(12, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(205, 138);
+            this.groupBox1.Size = new System.Drawing.Size(222, 157);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // cb_playNextFileInDirectoryAfterPlayback
+            // 
+            this.cb_playNextFileInDirectoryAfterPlayback.AutoSize = true;
+            this.cb_playNextFileInDirectoryAfterPlayback.Location = new System.Drawing.Point(7, 65);
+            this.cb_playNextFileInDirectoryAfterPlayback.Name = "cb_playNextFileInDirectoryAfterPlayback";
+            this.cb_playNextFileInDirectoryAfterPlayback.Size = new System.Drawing.Size(209, 17);
+            this.cb_playNextFileInDirectoryAfterPlayback.TabIndex = 5;
+            this.cb_playNextFileInDirectoryAfterPlayback.Text = "Play next file in directory after playback";
+            this.cb_playNextFileInDirectoryAfterPlayback.UseVisualStyleBackColor = true;
+            // 
             // cb_autoplay
             // 
             this.cb_autoplay.AutoSize = true;
-            this.cb_autoplay.Location = new System.Drawing.Point(7, 42);
+            this.cb_autoplay.Location = new System.Drawing.Point(7, 19);
             this.cb_autoplay.Name = "cb_autoplay";
-            this.cb_autoplay.Size = new System.Drawing.Size(67, 17);
+            this.cb_autoplay.Size = new System.Drawing.Size(176, 17);
             this.cb_autoplay.TabIndex = 4;
-            this.cb_autoplay.Text = "Autoplay";
+            this.cb_autoplay.Text = "Automatically play file on startup";
             this.cb_autoplay.UseVisualStyleBackColor = true;
             // 
             // cb_showPlaylistOnStartup
             // 
             this.cb_showPlaylistOnStartup.AutoSize = true;
-            this.cb_showPlaylistOnStartup.Location = new System.Drawing.Point(7, 19);
+            this.cb_showPlaylistOnStartup.Location = new System.Drawing.Point(6, 134);
             this.cb_showPlaylistOnStartup.Name = "cb_showPlaylistOnStartup";
             this.cb_showPlaylistOnStartup.Size = new System.Drawing.Size(137, 17);
             this.cb_showPlaylistOnStartup.TabIndex = 3;
@@ -76,7 +88,7 @@
             // cb_addFileToPlaylistOnOpen
             // 
             this.cb_addFileToPlaylistOnOpen.AutoSize = true;
-            this.cb_addFileToPlaylistOnOpen.Location = new System.Drawing.Point(7, 111);
+            this.cb_addFileToPlaylistOnOpen.Location = new System.Drawing.Point(7, 42);
             this.cb_addFileToPlaylistOnOpen.Name = "cb_addFileToPlaylistOnOpen";
             this.cb_addFileToPlaylistOnOpen.Size = new System.Drawing.Size(153, 17);
             this.cb_addFileToPlaylistOnOpen.TabIndex = 2;
@@ -86,17 +98,17 @@
             // cb_rememberLastPlayedFile
             // 
             this.cb_rememberLastPlayedFile.AutoSize = true;
-            this.cb_rememberLastPlayedFile.Location = new System.Drawing.Point(7, 88);
+            this.cb_rememberLastPlayedFile.Location = new System.Drawing.Point(6, 111);
             this.cb_rememberLastPlayedFile.Name = "cb_rememberLastPlayedFile";
-            this.cb_rememberLastPlayedFile.Size = new System.Drawing.Size(170, 17);
+            this.cb_rememberLastPlayedFile.Size = new System.Drawing.Size(177, 17);
             this.cb_rememberLastPlayedFile.TabIndex = 1;
-            this.cb_rememberLastPlayedFile.Text = "Remember previous played file";
+            this.cb_rememberLastPlayedFile.Text = "Remember previously played file";
             this.cb_rememberLastPlayedFile.UseVisualStyleBackColor = true;
             // 
             // cb_rememberWindowBounds
             // 
             this.cb_rememberWindowBounds.AutoSize = true;
-            this.cb_rememberWindowBounds.Location = new System.Drawing.Point(7, 65);
+            this.cb_rememberWindowBounds.Location = new System.Drawing.Point(6, 88);
             this.cb_rememberWindowBounds.Name = "cb_rememberWindowBounds";
             this.cb_rememberWindowBounds.Size = new System.Drawing.Size(192, 17);
             this.cb_rememberWindowBounds.TabIndex = 0;
@@ -106,7 +118,7 @@
             // btn_save
             // 
             this.btn_save.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btn_save.Location = new System.Drawing.Point(60, 155);
+            this.btn_save.Location = new System.Drawing.Point(82, 171);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(75, 23);
             this.btn_save.TabIndex = 1;
@@ -116,7 +128,7 @@
             // btn_cancel
             // 
             this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_cancel.Location = new System.Drawing.Point(141, 155);
+            this.btn_cancel.Location = new System.Drawing.Point(159, 171);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_cancel.TabIndex = 2;
@@ -128,7 +140,7 @@
             this.AcceptButton = this.btn_save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(228, 185);
+            this.ClientSize = new System.Drawing.Size(245, 200);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.groupBox1);
@@ -156,5 +168,6 @@
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.CheckBox cb_autoplay;
         private System.Windows.Forms.CheckBox cb_showPlaylistOnStartup;
+        private System.Windows.Forms.CheckBox cb_playNextFileInDirectoryAfterPlayback;
     }
 }
