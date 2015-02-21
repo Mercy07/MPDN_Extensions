@@ -192,7 +192,7 @@ namespace Mpdn.PlayerExtensions.Playlist
         private void PlayNextInFolder()
         {
             if (PlayerControl.MediaPosition != PlayerControl.MediaDuration) return;
-            form.PlayNextInFolder();
+            form.PlayNextFileInDirectory();
         }
 
         private void AddFileToPlaylist()

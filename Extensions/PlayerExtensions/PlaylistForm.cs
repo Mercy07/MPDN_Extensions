@@ -284,7 +284,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             currentPlayIndex = 0;
         }
 
-        public void PlayNextInFolder(bool next = true)
+        public void PlayNextFileInDirectory(bool next = true)
         {
             if (PlayerControl.PlayerState == PlayerState.Closed)
                 return;
