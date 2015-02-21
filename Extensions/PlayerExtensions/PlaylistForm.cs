@@ -155,6 +155,7 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             ClearPlaylist();
             PopulatePlaylist();
+            CurrentItem = null;
             currentPlayIndex = -1;
             Text = "Playlist";
             dgv_PlayList.Invalidate();
