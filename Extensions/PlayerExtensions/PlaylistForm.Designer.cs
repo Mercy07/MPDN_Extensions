@@ -96,7 +96,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.buttonAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(24, 25);
-            this.buttonAdd.ToolTipText = "Add files";
+            this.buttonAdd.ToolTipText = "Add file(s)";
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAddClick);
             // 
             // buttonDel
@@ -107,7 +107,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.buttonDel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(24, 25);
-            this.buttonDel.ToolTipText = "Remove files";
+            this.buttonDel.ToolTipText = "Remove file(s)";
             this.buttonDel.Click += new System.EventHandler(this.ButtonDelClick);
             // 
             // toolStripStatusLabel2
@@ -229,7 +229,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.openFileDialog.Multiselect = true;
             this.openFileDialog.RestoreDirectory = true;
             this.openFileDialog.SupportMultiDottedExtensions = true;
-            this.openFileDialog.Title = "Add file...";
+            this.openFileDialog.Title = "Add file(s)...";
             // 
             // openPlaylistDialog
             // 
@@ -347,64 +347,64 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.nextItemToolStripMenuItem,
             this.previousItemToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(150, 170);
             // 
             // newPlaylistToolStripMenuItem
             // 
             this.newPlaylistToolStripMenuItem.Name = "newPlaylistToolStripMenuItem";
-            this.newPlaylistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.newPlaylistToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newPlaylistToolStripMenuItem.Text = "New playlist";
             this.newPlaylistToolStripMenuItem.Click += new System.EventHandler(this.ButtonNewClick);
             // 
             // openPlaylistToolStripMenuItem
             // 
             this.openPlaylistToolStripMenuItem.Name = "openPlaylistToolStripMenuItem";
-            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openPlaylistToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.openPlaylistToolStripMenuItem.Text = "Open playlist";
             this.openPlaylistToolStripMenuItem.Click += new System.EventHandler(this.ButtonOpenClick);
             // 
             // savePlaylistToolStripMenuItem
             // 
             this.savePlaylistToolStripMenuItem.Name = "savePlaylistToolStripMenuItem";
-            this.savePlaylistToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.savePlaylistToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.savePlaylistToolStripMenuItem.Text = "Save playlist";
             this.savePlaylistToolStripMenuItem.Click += new System.EventHandler(this.ButtonSaveClick);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(146, 6);
             // 
             // addFilesToolStripMenuItem
             // 
             this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
-            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.addFilesToolStripMenuItem.Text = "Add files";
+            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.addFilesToolStripMenuItem.Text = "Add file(s)";
             this.addFilesToolStripMenuItem.Click += new System.EventHandler(this.ButtonAddClick);
             // 
             // removeFilesToolStripMenuItem
             // 
             this.removeFilesToolStripMenuItem.Name = "removeFilesToolStripMenuItem";
-            this.removeFilesToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.removeFilesToolStripMenuItem.Text = "Remove files";
+            this.removeFilesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.removeFilesToolStripMenuItem.Text = "Remove file(s)";
             this.removeFilesToolStripMenuItem.Click += new System.EventHandler(this.ButtonDelClick);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
             // 
             // nextItemToolStripMenuItem
             // 
             this.nextItemToolStripMenuItem.Name = "nextItemToolStripMenuItem";
-            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.nextItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.nextItemToolStripMenuItem.Text = "Next";
             this.nextItemToolStripMenuItem.Click += new System.EventHandler(this.ButtonRightClick);
             // 
             // previousItemToolStripMenuItem
             // 
             this.previousItemToolStripMenuItem.Name = "previousItemToolStripMenuItem";
-            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.previousItemToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.previousItemToolStripMenuItem.Text = "Previous";
             this.previousItemToolStripMenuItem.Click += new System.EventHandler(this.ButtonLeftClick);
             // 
@@ -446,7 +446,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         private ButtonStripItem buttonOpen;
         private ButtonStripItem buttonSave;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private ButtonStripItem buttonLeft;
         private ButtonStripItem buttonRight;
         private System.Windows.Forms.OpenFileDialog openPlaylistDialog;
@@ -470,5 +469,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         private ToolStripMenuItem nextItemToolStripMenuItem;
         private ToolStripMenuItem previousItemToolStripMenuItem;
         private ButtonStripItem buttonSettings;
+        public OpenFileDialog openFileDialog;
     }
 }
