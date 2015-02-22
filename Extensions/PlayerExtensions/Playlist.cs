@@ -64,6 +64,11 @@ namespace Mpdn.PlayerExtensions.Playlist
                 form.Show(PlayerControl.VideoPanel);
             }
 
+            if (!String.IsNullOrEmpty(Settings.PlaylistPathDisplay))
+            {
+                form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
+            }
+
             if (Settings.RememberPreviouslyPlayedFile)
             {
                 form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFile;
@@ -75,18 +80,13 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
             }
-
-            if (!String.IsNullOrEmpty(Settings.PlaylistPathDisplay))
-            {
-                form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
-            }
         }
 
         public void Reinitialize()
         {
+            form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
             form.PlayNextFileInDirectoryAfterPlayback = Settings.PlayNextFileInDirectoryAfterPlayback;
             form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
-            form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
         }
 
         public override void Destroy()
