@@ -18,6 +18,11 @@ namespace Mpdn.PlayerExtensions.Playlist
         private Point formStartLocation;
         private bool moving;
 
+        public PlaylistForm GetPlaylistForm
+        {
+            get { return form; }
+        }
+
         public override ExtensionUiDescriptor Descriptor
         {
             get
