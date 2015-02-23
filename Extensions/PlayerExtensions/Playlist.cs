@@ -130,6 +130,14 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         private void OnPlayerStateChanged(object sender, EventArgs e)
         {
+            if (PlayerControl.PlayerState == PlayerState.Playing)
+            {
+                if (form.CurrentItem != null && form.CurrentItem.FilePath != "")
+                {
+                    Settings.LastPlayedFile = form.CurrentItem.FilePath;
+                }
+            }
+
             if (Settings.AddFileToPlaylistOnOpen)
             {
                 SetActiveFile();
@@ -151,11 +159,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         private void OnFormClosed(object sender, EventArgs e)
         {
             Settings.WindowBounds = form.Bounds;
-
-            if (form.CurrentItem != null && form.CurrentItem.FilePath != "")
-            {
-                Settings.LastPlayedFile = form.CurrentItem.FilePath;
-            }
         }
 
         private void OnFormMove(object sender, EventArgs e)

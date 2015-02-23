@@ -330,6 +330,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             if (nextFile != null)
             {
                 PlayerControl.OpenMedia(nextFile);
+                if (Playlist.Count > 1) AddActiveFile(nextFile);
             }
         }
 
@@ -1023,7 +1024,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                     selectedRowIndex = Playlist.Count - 1;
                 }
 
-                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[selectedRowIndex].Cells[1];
+                dgv_PlayList.CurrentCell = Playlist.Count > 1 ? dgv_PlayList.Rows[selectedRowIndex].Cells[1] : dgv_PlayList.CurrentCell = null;
             }
             catch (Exception ex)
             {
