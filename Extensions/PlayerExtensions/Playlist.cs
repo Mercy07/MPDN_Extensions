@@ -69,16 +69,16 @@ namespace Mpdn.PlayerExtensions.Playlist
                 form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
             }
 
+            if (Settings.AutomaticallyPlayFileOnStartup)
+            {
+                form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
+            }
+
             if (Settings.RememberPreviouslyPlayedFile)
             {
                 form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFile;
                 string[] files = { Settings.LastPlayedFile };
                 form.AddFiles(files);
-            }
-
-            if (Settings.AutomaticallyPlayFileOnStartup)
-            {
-                form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
             }
         }
 

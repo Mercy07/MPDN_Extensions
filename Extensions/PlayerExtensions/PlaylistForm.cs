@@ -34,8 +34,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         private Rectangle dragRowRect;
         private int dragRowIndex;
 
-        private bool stopRemembering;
-
         public Rectangle WindowBounds { get; set; }
         public bool RememberWindowBounds { get; set; }
         public bool AutomaticallyPlayFileOnStartup { get; set; }
@@ -331,6 +329,12 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 PlayerControl.OpenMedia(nextFile);
                 if (Playlist.Count > 1) AddActiveFile(nextFile);
+                else
+                {
+                    CurrentItem = null;
+                    currentPlayIndex = -1;
+                    dgv_PlayList.Invalidate();
+                }
             }
         }
 
@@ -383,14 +387,6 @@ namespace Mpdn.PlayerExtensions.Playlist
             }
 
             dgv_PlayList.CurrentCell = dgv_PlayList.Rows[selectedRowIndex].Cells[1];
-
-            if (RememberLastPlayedFile && !stopRemembering)
-            {
-                stopRemembering = true;
-                OpenMedia();
-                PlayerControl.StopMedia();
-                return;
-            }
 
             if (!AutomaticallyPlayFileOnStartup) return;
 
@@ -1014,7 +1010,6 @@ namespace Mpdn.PlayerExtensions.Playlist
 
                 PopulatePlaylist();
 
-
                 if (selectedRowIndex < 0)
                 {
                     selectedRowIndex = 0;
@@ -1024,7 +1019,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                     selectedRowIndex = Playlist.Count - 1;
                 }
 
-                dgv_PlayList.CurrentCell = Playlist.Count > 1 ? dgv_PlayList.Rows[selectedRowIndex].Cells[1] : dgv_PlayList.CurrentCell = null;
+                dgv_PlayList.CurrentCell = Playlist.Count > 0 ? dgv_PlayList.Rows[selectedRowIndex].Cells[1] : dgv_PlayList.CurrentCell = null;
             }
             catch (Exception ex)
             {

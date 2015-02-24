@@ -59,7 +59,7 @@
             this.groupBox1.Size = new System.Drawing.Size(222, 157);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "General Settings";
+            this.groupBox1.Text = "General settings";
             // 
             // cb_playNextFileInDirectoryAfterPlayback
             // 
