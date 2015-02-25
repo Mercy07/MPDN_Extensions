@@ -18,6 +18,9 @@ namespace Mpdn.PlayerExtensions.Playlist
         private Point formStartLocation;
         private bool moving;
 
+        private string currentFile;
+        private bool addToPlayedFiles;
+
         public PlaylistForm GetPlaylistForm
         {
             get { return form; }
@@ -74,11 +77,14 @@ namespace Mpdn.PlayerExtensions.Playlist
                 form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
             }
 
-            if (Settings.RememberPreviouslyPlayedFile)
+            if (Settings.RememberPreviouslyPlayedFiles)
             {
-                form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFile;
-                string[] files = { Settings.LastPlayedFile };
-                form.AddFiles(files);
+                form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFiles;
+                if (Settings.PreviouslyPlayedFiles.Count > 0)
+                {
+                    string[] files = Settings.PreviouslyPlayedFiles.ToArray();
+                    form.AddFiles(files);
+                }
             }
         }
 
@@ -134,7 +140,17 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 if (form.CurrentItem != null && form.CurrentItem.FilePath != "")
                 {
-                    Settings.LastPlayedFile = form.CurrentItem.FilePath;
+                    if (addToPlayedFiles)
+                    {
+                        currentFile = form.CurrentItem.FilePath;
+                        Settings.PreviouslyPlayedFiles.Add(form.CurrentItem.FilePath);
+                        addToPlayedFiles = false;
+                    }
+
+                    if (currentFile != PlayerControl.MediaFilePath)
+                    {
+                        addToPlayedFiles = true;
+                    }
                 }
             }
 
@@ -315,10 +331,10 @@ namespace Mpdn.PlayerExtensions.Playlist
         public bool AutomaticallyPlayFileOnStartup { get; set; }
         public bool AddFileToPlaylistOnOpen { get; set; }
         public bool RememberWindowBounds { get; set; }
-        public bool RememberPreviouslyPlayedFile { get; set; }
+        public bool RememberPreviouslyPlayedFiles { get; set; }
         public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public Rectangle WindowBounds { get; set; }
-        public string LastPlayedFile { get; set; }
+        public List<string> PreviouslyPlayedFiles { get; set; }
         public string PlaylistPathDisplay { get; set; }
 
         public PlaylistSettings()
@@ -327,7 +343,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             AutomaticallyPlayFileOnStartup = false;
             AddFileToPlaylistOnOpen = false;
             RememberWindowBounds = false;
-            RememberPreviouslyPlayedFile = false;
+            RememberPreviouslyPlayedFiles = false;
             PlayNextFileInDirectoryAfterPlayback = false;
         }
     }

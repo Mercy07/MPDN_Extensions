@@ -1,4 +1,5 @@
-﻿using Mpdn.Config;
+﻿using System.Windows.Forms;
+using Mpdn.Config;
 
 namespace Mpdn.PlayerExtensions.Playlist
 {
@@ -7,6 +8,13 @@ namespace Mpdn.PlayerExtensions.Playlist
         public PlaylistConfigDialog()
         {
             InitializeComponent();
+            Setup();
+        }
+
+        private void Setup()
+        {
+            var tt = new ToolTip();
+            tt.SetToolTip(btn_clearPreviouslyPlayedFiles, "Clear previously played file(s)");
         }
 
         protected override void LoadSettings()
@@ -14,7 +22,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             cb_showPlaylistOnStartup.Checked = Settings.ShowPlaylistOnStartup;
             cb_autoplay.Checked = Settings.AutomaticallyPlayFileOnStartup;
             cb_rememberWindowBounds.Checked = Settings.RememberWindowBounds;
-            cb_rememberLastPlayedFile.Checked = Settings.RememberPreviouslyPlayedFile;
+            cb_rememberPreviouslyPlayedFiles.Checked = Settings.RememberPreviouslyPlayedFiles;
             cb_addFileToPlaylistOnOpen.Checked = Settings.AddFileToPlaylistOnOpen;
             cb_playNextFileInDirectoryAfterPlayback.Checked = Settings.PlayNextFileInDirectoryAfterPlayback;
 
@@ -33,7 +41,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             Settings.ShowPlaylistOnStartup = cb_showPlaylistOnStartup.Checked;
             Settings.AutomaticallyPlayFileOnStartup = cb_autoplay.Checked;
             Settings.RememberWindowBounds = cb_rememberWindowBounds.Checked;
-            Settings.RememberPreviouslyPlayedFile = cb_rememberLastPlayedFile.Checked;
+            Settings.RememberPreviouslyPlayedFiles = cb_rememberPreviouslyPlayedFiles.Checked;
             Settings.AddFileToPlaylistOnOpen = cb_addFileToPlaylistOnOpen.Checked;
             Settings.PlayNextFileInDirectoryAfterPlayback = cb_playNextFileInDirectoryAfterPlayback.Checked;
             
@@ -45,6 +53,11 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 Settings.PlaylistPathDisplay = "FilenameOnly";
             }
+        }
+
+        private void btn_clearPreviouslyPlayedFiles_Click(object sender, System.EventArgs e)
+        {
+            Settings.PreviouslyPlayedFiles.Clear();
         }
     }
 

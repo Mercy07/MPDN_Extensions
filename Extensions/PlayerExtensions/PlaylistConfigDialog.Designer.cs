@@ -1,4 +1,6 @@
-﻿namespace Mpdn.PlayerExtensions.Playlist
+﻿using System.Windows.Forms;
+
+namespace Mpdn.PlayerExtensions.Playlist
 {
     partial class PlaylistConfigDialog
     {
@@ -28,12 +30,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlaylistForm));
+
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_clearPreviouslyPlayedFiles = new System.Windows.Forms.Button();
             this.cb_playNextFileInDirectoryAfterPlayback = new System.Windows.Forms.CheckBox();
             this.cb_autoplay = new System.Windows.Forms.CheckBox();
             this.cb_showPlaylistOnStartup = new System.Windows.Forms.CheckBox();
             this.cb_addFileToPlaylistOnOpen = new System.Windows.Forms.CheckBox();
-            this.cb_rememberLastPlayedFile = new System.Windows.Forms.CheckBox();
+            this.cb_rememberPreviouslyPlayedFiles = new System.Windows.Forms.CheckBox();
             this.cb_rememberWindowBounds = new System.Windows.Forms.CheckBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -48,15 +53,16 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_clearPreviouslyPlayedFiles);
             this.groupBox1.Controls.Add(this.cb_playNextFileInDirectoryAfterPlayback);
             this.groupBox1.Controls.Add(this.cb_autoplay);
             this.groupBox1.Controls.Add(this.cb_showPlaylistOnStartup);
             this.groupBox1.Controls.Add(this.cb_addFileToPlaylistOnOpen);
-            this.groupBox1.Controls.Add(this.cb_rememberLastPlayedFile);
+            this.groupBox1.Controls.Add(this.cb_rememberPreviouslyPlayedFiles);
             this.groupBox1.Controls.Add(this.cb_rememberWindowBounds);
             this.groupBox1.Location = new System.Drawing.Point(189, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(222, 157);
+            this.groupBox1.Size = new System.Drawing.Size(243, 157);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General settings";
@@ -84,7 +90,7 @@
             // cb_showPlaylistOnStartup
             // 
             this.cb_showPlaylistOnStartup.AutoSize = true;
-            this.cb_showPlaylistOnStartup.Location = new System.Drawing.Point(6, 134);
+            this.cb_showPlaylistOnStartup.Location = new System.Drawing.Point(7, 134);
             this.cb_showPlaylistOnStartup.Name = "cb_showPlaylistOnStartup";
             this.cb_showPlaylistOnStartup.Size = new System.Drawing.Size(137, 17);
             this.cb_showPlaylistOnStartup.TabIndex = 3;
@@ -101,45 +107,25 @@
             this.cb_addFileToPlaylistOnOpen.Text = "On file open, add to playlist";
             this.cb_addFileToPlaylistOnOpen.UseVisualStyleBackColor = true;
             // 
-            // cb_rememberLastPlayedFile
+            // cb_rememberPreviouslyPlayedFiles
             // 
-            this.cb_rememberLastPlayedFile.AutoSize = true;
-            this.cb_rememberLastPlayedFile.Location = new System.Drawing.Point(6, 111);
-            this.cb_rememberLastPlayedFile.Name = "cb_rememberLastPlayedFile";
-            this.cb_rememberLastPlayedFile.Size = new System.Drawing.Size(177, 17);
-            this.cb_rememberLastPlayedFile.TabIndex = 1;
-            this.cb_rememberLastPlayedFile.Text = "Remember previously played file";
-            this.cb_rememberLastPlayedFile.UseVisualStyleBackColor = true;
+            this.cb_rememberPreviouslyPlayedFiles.AutoSize = true;
+            this.cb_rememberPreviouslyPlayedFiles.Location = new System.Drawing.Point(7, 111);
+            this.cb_rememberPreviouslyPlayedFiles.Name = "cb_rememberPreviouslyPlayedFiles";
+            this.cb_rememberPreviouslyPlayedFiles.Size = new System.Drawing.Size(188, 17);
+            this.cb_rememberPreviouslyPlayedFiles.TabIndex = 1;
+            this.cb_rememberPreviouslyPlayedFiles.Text = "Remember previously played file(s)";
+            this.cb_rememberPreviouslyPlayedFiles.UseVisualStyleBackColor = true;
             // 
             // cb_rememberWindowBounds
             // 
             this.cb_rememberWindowBounds.AutoSize = true;
-            this.cb_rememberWindowBounds.Location = new System.Drawing.Point(6, 88);
+            this.cb_rememberWindowBounds.Location = new System.Drawing.Point(7, 88);
             this.cb_rememberWindowBounds.Name = "cb_rememberWindowBounds";
             this.cb_rememberWindowBounds.Size = new System.Drawing.Size(192, 17);
             this.cb_rememberWindowBounds.TabIndex = 0;
             this.cb_rememberWindowBounds.Text = "Remember playlist size and position";
             this.cb_rememberWindowBounds.UseVisualStyleBackColor = true;
-            // 
-            // btn_save
-            // 
-            this.btn_save.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btn_save.Location = new System.Drawing.Point(22, 146);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 23);
-            this.btn_save.TabIndex = 1;
-            this.btn_save.Text = "Save";
-            this.btn_save.UseVisualStyleBackColor = true;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_cancel.Location = new System.Drawing.Point(99, 146);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
-            this.btn_cancel.TabIndex = 2;
-            this.btn_cancel.Text = "Cancel";
-            this.btn_cancel.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -155,7 +141,7 @@
             // rb_displayFileNameOnly
             // 
             this.rb_displayFileNameOnly.AutoSize = true;
-            this.rb_displayFileNameOnly.Location = new System.Drawing.Point(6, 41);
+            this.rb_displayFileNameOnly.Location = new System.Drawing.Point(7, 41);
             this.rb_displayFileNameOnly.Name = "rb_displayFileNameOnly";
             this.rb_displayFileNameOnly.Size = new System.Drawing.Size(123, 17);
             this.rb_displayFileNameOnly.TabIndex = 1;
@@ -166,7 +152,7 @@
             // rb_displayFullPath
             // 
             this.rb_displayFullPath.AutoSize = true;
-            this.rb_displayFullPath.Location = new System.Drawing.Point(6, 19);
+            this.rb_displayFullPath.Location = new System.Drawing.Point(7, 19);
             this.rb_displayFullPath.Name = "rb_displayFullPath";
             this.rb_displayFullPath.Size = new System.Drawing.Size(99, 17);
             this.rb_displayFullPath.TabIndex = 0;
@@ -193,12 +179,45 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Playlist with advanced capabilities\r\nThanks to Zach, ryrynz, mrcorbo";
             // 
+            // btn_save
+            // 
+            this.btn_save.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btn_save.Location = new System.Drawing.Point(22, 146);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(75, 23);
+            this.btn_save.TabIndex = 1;
+            this.btn_save.Text = "Save";
+            this.btn_save.UseVisualStyleBackColor = true;
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_cancel.Location = new System.Drawing.Point(99, 146);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
+            this.btn_cancel.TabIndex = 2;
+            this.btn_cancel.Text = "Cancel";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            // 
+            // btn_clearPreviouslyPlayedFiles
+            // 
+            this.btn_clearPreviouslyPlayedFiles.Location = new System.Drawing.Point(189, 107);
+            this.btn_clearPreviouslyPlayedFiles.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearPreviouslyPlayedFiles.BackgroundImage")));
+            this.btn_clearPreviouslyPlayedFiles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_clearPreviouslyPlayedFiles.FlatStyle = FlatStyle.Flat;
+            this.btn_clearPreviouslyPlayedFiles.FlatAppearance.BorderSize = 0;
+            this.btn_clearPreviouslyPlayedFiles.Name = "btn_clearPreviouslyPlayedFiles";
+            this.btn_clearPreviouslyPlayedFiles.Size = new System.Drawing.Size(24, 25);
+            this.btn_clearPreviouslyPlayedFiles.TabIndex = 6;
+            this.btn_clearPreviouslyPlayedFiles.UseVisualStyleBackColor = true;
+            this.btn_clearPreviouslyPlayedFiles.Click += new System.EventHandler(this.btn_clearPreviouslyPlayedFiles_Click);
+            // 
             // PlaylistConfigDialog
             // 
             this.AcceptButton = this.btn_save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 178);
+            this.ClientSize = new System.Drawing.Size(444, 178);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
@@ -227,7 +246,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cb_rememberWindowBounds;
         private System.Windows.Forms.CheckBox cb_addFileToPlaylistOnOpen;
-        private System.Windows.Forms.CheckBox cb_rememberLastPlayedFile;
+        private System.Windows.Forms.CheckBox cb_rememberPreviouslyPlayedFiles;
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.CheckBox cb_autoplay;
@@ -238,5 +257,6 @@
         private System.Windows.Forms.RadioButton rb_displayFullPath;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_clearPreviouslyPlayedFiles;
     }
 }

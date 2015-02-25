@@ -304,4 +304,18 @@
   <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>647, 17</value>
   </data>
+  <data name="ClearPreviouslyPlayedFiles.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAHuSURBVDhPY0AHLdvnG086tX4WEN8B4t9QDGLPat+9yBiqDBNkTarnAiqaC8T/gPg/DgySm1sw
+        u40Lqg0CMibWgjQfQVJICB9BMQQoALIZRVHz3vn/q7dNB2MQG10eiOeCNTdsmgXyM9jZE06s/b/+2uH/
+        264c/W9W5v2/YWU/GFvVBP7fd//8/003jyEb8A8cJhNPrpvVf2z1/9Yd8//XrJ7yf+/Vk/+vPrn7/9Td
+        y/+vPL4DxiA2SOzYwyvIBoDwLIamzbPvVK+a/B+Gwyfk/xdP0MXEiXr/M5Y3oxtwhwGo6TeyAUE9Wf+F
+        YjT/B3Zn/jcs9vjv1BD136E+/L9yptX/5EV16Ab8xjAgelLxf95IFbBBIAOcgQY41kf8l0s1/Z+3pgur
+        ASheSJlZ8589RA7DAIlE/f9V26ahGwD2wixkA3Lnt/5nCpD4H9KbjWKAcKzm/7b9i9ANmAVKgSZAjf9g
+        BpQt6/vP4C/2XyHNDKxJMskAjDlC5cDRjKT5HyjZg9MCUOM8mAEgnD2v+X/67HowzpzX9L9oVc//+p2z
+        kTWDMCQhgUBQUTIXUOMRZEOatsz5331g2X9gOkHXCMJHQHkHqh0CQIbUrps2r2PP4n8TjqM4FRmDMxMo
+        70C1YYLaddNxZmdQsocqgwIGBgC8nk2Nxu5DZQAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

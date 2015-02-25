@@ -366,9 +366,7 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         public void AddFiles(string[] fileNames)
         {
-            var files = fileNames.Except(Playlist.Select(item => item.FilePath)).ToArray();
-
-            foreach (var item in files.Select(s => new PlaylistItem(s, false) { EndChapter = -1 }))
+            foreach (var item in fileNames.Select(s => new PlaylistItem(s, false) { EndChapter = -1 }))
             {
                 Playlist.Add(item);
             }
@@ -586,6 +584,12 @@ namespace Mpdn.PlayerExtensions.Playlist
             if (e.KeyCode == Keys.Delete)
             {
                 RemoveSelectedItems();
+            }
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                SetPlaylistIndex(dgv_PlayList.CurrentRow.Index);
+                e.Handled = true;
             }
         }
 
@@ -1030,11 +1034,13 @@ namespace Mpdn.PlayerExtensions.Playlist
         private void ButtonAddClick(object sender, EventArgs e)
         {
             AddFilesToPlaylist();
+            dgv_PlayList.Focus();
         }
 
         private void ButtonDelClick(object sender, EventArgs e)
         {
             RemoveSelectedItems();
+            dgv_PlayList.Focus();
         }
 
         private void ButtonNewClick(object sender, EventArgs e)
