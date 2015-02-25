@@ -79,7 +79,6 @@ namespace Mpdn.PlayerExtensions.Playlist
 
             if (Settings.RememberPreviouslyPlayedFiles)
             {
-                form.RememberLastPlayedFile = Settings.RememberPreviouslyPlayedFiles;
                 if (Settings.PreviouslyPlayedFiles.Count > 0)
                 {
                     string[] files = Settings.PreviouslyPlayedFiles.ToArray();
@@ -201,7 +200,6 @@ namespace Mpdn.PlayerExtensions.Playlist
                 return new[]
                 {
                     new Verb(Category.File, string.Empty, "Open Playlist", "Ctrl+Alt+O", string.Empty, OpenPlaylist),
-                    new Verb(Category.File, string.Empty, "Add file to playlist", "Ctrl+Alt+A", string.Empty, AddFileToPlaylist),
                     new Verb(Category.View, string.Empty, "Playlist", "Ctrl+Alt+P", string.Empty, ViewPlaylist),
                     new Verb(Category.Play, Subcategory, "Next", "Ctrl+Alt+N", string.Empty, () => form.PlayNext()),
                     new Verb(Category.Play, Subcategory, "Previous", "Ctrl+Alt+B", string.Empty, () => form.PlayPrevious())

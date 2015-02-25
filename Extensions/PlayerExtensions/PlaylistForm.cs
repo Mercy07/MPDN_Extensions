@@ -37,7 +37,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         public Rectangle WindowBounds { get; set; }
         public bool RememberWindowBounds { get; set; }
         public bool AutomaticallyPlayFileOnStartup { get; set; }
-        public bool RememberLastPlayedFile { get; set; }
         public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public string PlaylistPathDisplay { get; set; }
 
