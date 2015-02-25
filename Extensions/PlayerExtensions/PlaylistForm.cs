@@ -390,6 +390,13 @@ namespace Mpdn.PlayerExtensions.Playlist
             currentPlayIndex = Playlist.Count > 0 ? Playlist.Count - 1 : 0;
             OpenMedia();
         }
+        
+        public void InsertFile(int index, string fileName)
+        {
+            PlaylistItem item = new PlaylistItem(fileName, false);
+            Playlist.Insert(index, item);
+            PopulatePlaylist();
+        }
 
         public void RemoveFile(int index)
         {
