@@ -104,7 +104,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                         playList.Add(new PlaylistItem(filePath, skipChapters, endChapter, active));
                     }
 
-                    int activeItem = (playList.FindIndex(i => i.Active) > -1) ? playList.FindIndex(i => i.Active) : -1;
+                    int activeItem = (playList.FindIndex(i => i.Active) > -1) ? playList.FindIndex(i => i.Active) : 0;
 
                     form.Playlist = playList;
                     form.PopulatePlaylist();
@@ -211,7 +211,13 @@ namespace Mpdn.PlayerExtensions.Playlist
 
                 foreach (PlaylistItem i in form.Playlist)
                 {
-                    string skipChapters = string.Join(",", i.SkipChapters);
+                    string skipChapters = "";
+                    
+                    if (i.SkipChapters != null && i.SkipChapters.Count > 0)
+                    {
+                        skipChapters = string.Join(",", i.SkipChapters);
+                    }
+
                     Settings.RememberedFiles.Add(i.FilePath + "|" + skipChapters + "|" + i.EndChapter + "|" + i.Active);
                 }
             }
