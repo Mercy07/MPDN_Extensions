@@ -200,6 +200,11 @@ namespace Mpdn.PlayerExtensions.Playlist
             OpenPlaylist(openPlaylistDialog.FileName);
         }
 
+        public void RefreshPlaylist()
+        {
+            dgv_PlayList.Invalidate();
+        }
+
         public void OpenPlaylist(string fileName)
         {
             ClearPlaylist();
@@ -974,6 +979,16 @@ namespace Mpdn.PlayerExtensions.Playlist
             return PlayerControl.Chapters.OrderBy(chapter => chapter.Position);
         }
 
+        public void FocusPlaylistItem(int index)
+        {
+            dgv_PlayList.CurrentCell = dgv_PlayList.Rows[index].Cells[1];
+        }
+
+        public void FocusPlaylist()
+        {
+            dgv_PlayList.Focus();
+        }
+
         private void ResetActive()
         {
             foreach (var item in Playlist)
@@ -1096,6 +1111,16 @@ namespace Mpdn.PlayerExtensions.Playlist
             if (e.KeyData == Keys.Escape)
             {
                 Hide();
+            }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Tab)
+            {
+                if (!PlayerControl.InFullScreenMode && !PlayerControl.Form.ContainsFocus)
+                {
+                    PlayerControl.Form.Activate();
+                    Cursor.Position = new Point(PlayerControl.Form.Location.X + 100, PlayerControl.Form.Location.Y + 100);
+                    e.SuppressKeyPress = true;
+                }
             }
         }
     }
