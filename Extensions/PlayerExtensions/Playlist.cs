@@ -213,9 +213,10 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             Settings.WindowBounds = form.Bounds;
 
-            if (Settings.ColumnBounds != null)
+            if (form.Visible)
             {
                 Settings.ColumnBounds.Clear();
+
                 for (int i = 0; i < form.GetDgvPlaylist().Columns.Count; i++)
                 {
                     Settings.ColumnBounds.Add(form.GetDgvPlaylist().Columns[i].Width);
@@ -226,16 +227,20 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 Settings.RememberedFiles.Clear();
 
-                foreach (PlaylistItem i in form.Playlist)
+                if (form.Playlist.Count > 0)
                 {
-                    string skipChapters = "";
-                    
-                    if (i.SkipChapters != null && i.SkipChapters.Count > 0)
+                    foreach (PlaylistItem i in form.Playlist)
                     {
-                        skipChapters = string.Join(",", i.SkipChapters);
-                    }
+                        string skipChapters = "";
 
-                    Settings.RememberedFiles.Add(i.FilePath + "|" + skipChapters + "|" + i.EndChapter + "|" + i.Active);
+                        if (i.SkipChapters != null && i.SkipChapters.Count > 0)
+                        {
+                            skipChapters = string.Join(",", i.SkipChapters);
+                        }
+
+                        Settings.RememberedFiles.Add(i.FilePath + "|" + skipChapters + "|" + i.EndChapter + "|" +
+                                                     i.Active);
+                    }
                 }
             }
         }
@@ -428,6 +433,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             RememberWindowBounds = false;
             RememberPlaylist = false;
             PlayNextFileInDirectoryAfterPlayback = false;
+            ColumnBounds = new List<int>();
         }
     }
 }
