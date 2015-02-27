@@ -30,9 +30,7 @@ namespace Mpdn.PlayerExtensions.Playlist
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlaylistForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_clearRememberedFiles = new System.Windows.Forms.Button();
             this.cb_playNextFileInDirectoryAfterPlayback = new System.Windows.Forms.CheckBox();
             this.cb_automaticallyPlayFileOnStartup = new System.Windows.Forms.CheckBox();
             this.cb_showPlaylistOnStartup = new System.Windows.Forms.CheckBox();
@@ -52,7 +50,6 @@ namespace Mpdn.PlayerExtensions.Playlist
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btn_clearRememberedFiles);
             this.groupBox1.Controls.Add(this.cb_playNextFileInDirectoryAfterPlayback);
             this.groupBox1.Controls.Add(this.cb_automaticallyPlayFileOnStartup);
             this.groupBox1.Controls.Add(this.cb_showPlaylistOnStartup);
@@ -65,19 +62,6 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General settings";
-            // 
-            // btn_clearRememberedFiles
-            // 
-            this.btn_clearRememberedFiles.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearRememberedFiles.BackgroundImage")));
-            this.btn_clearRememberedFiles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btn_clearRememberedFiles.FlatAppearance.BorderSize = 0;
-            this.btn_clearRememberedFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clearRememberedFiles.Location = new System.Drawing.Point(111, 83);
-            this.btn_clearRememberedFiles.Name = "btn_clearRememberedFiles";
-            this.btn_clearRememberedFiles.Size = new System.Drawing.Size(24, 25);
-            this.btn_clearRememberedFiles.TabIndex = 6;
-            this.btn_clearRememberedFiles.UseVisualStyleBackColor = true;
-            this.btn_clearRememberedFiles.Click += new System.EventHandler(this.btn_clearPreviouslyPlayedFiles_Click);
             // 
             // cb_playNextFileInDirectoryAfterPlayback
             // 
@@ -173,13 +157,13 @@ namespace Mpdn.PlayerExtensions.Playlist
             // rb_displayFileNameOnly
             // 
             this.rb_displayFileNameOnly.AutoSize = true;
+            this.rb_displayFileNameOnly.Checked = true;
             this.rb_displayFileNameOnly.Location = new System.Drawing.Point(7, 41);
             this.rb_displayFileNameOnly.Name = "rb_displayFileNameOnly";
             this.rb_displayFileNameOnly.Size = new System.Drawing.Size(123, 17);
             this.rb_displayFileNameOnly.TabIndex = 1;
             this.rb_displayFileNameOnly.TabStop = true;
             this.rb_displayFileNameOnly.Text = "Display filename only";
-            this.rb_displayFileNameOnly.Checked = true;
             this.rb_displayFileNameOnly.UseVisualStyleBackColor = true;
             // 
             // rb_displayFullPath
@@ -257,6 +241,5 @@ namespace Mpdn.PlayerExtensions.Playlist
         private System.Windows.Forms.RadioButton rb_displayFullPath;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btn_clearRememberedFiles;
     }
 }

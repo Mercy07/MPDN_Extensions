@@ -59,6 +59,14 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 form.RememberWindowBounds = Settings.RememberWindowBounds;
                 form.WindowBounds = Settings.WindowBounds;
+
+                if (Settings.ColumnBounds != null && Settings.ColumnBounds.Count > 0)
+                {
+                    for (int i = 0; i < form.GetDgvPlaylist().Columns.Count; i++)
+                    {
+                        form.GetDgvPlaylist().Columns[i].Width = Settings.ColumnBounds[i];
+                    }
+                }
             }
 
             if (Settings.ShowPlaylistOnStartup)
@@ -205,7 +213,16 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             Settings.WindowBounds = form.Bounds;
 
-            if (Settings.RememberPlaylist && form.Playlist.Count > 0)
+            if (Settings.ColumnBounds != null)
+            {
+                Settings.ColumnBounds.Clear();
+                for (int i = 0; i < form.GetDgvPlaylist().Columns.Count; i++)
+                {
+                    Settings.ColumnBounds.Add(form.GetDgvPlaylist().Columns[i].Width);
+                }
+            }
+
+            if (Settings.RememberPlaylist)
             {
                 Settings.RememberedFiles.Clear();
 
@@ -333,8 +350,11 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         public IEnumerable<string> GetMediaFiles(string mediaDir)
         {
-            var files = Directory.EnumerateFiles(mediaDir)
-                .OrderBy(filename => filename).Where(file => form.openFileDialog.Filter.Contains(Path.GetExtension(file)));
+            string[] filter = form.openFileDialog.Filter.Split('|');
+            string[] extensions = filter[1].Replace(";","").Replace(" ", "").Split('*');
+            var files = Directory.EnumerateFiles(mediaDir, "*.*", SearchOption.AllDirectories)
+                .OrderBy(filename => filename)
+                .Where(file => extensions.Contains(Path.GetExtension(file)));
             return files;
         }
 
@@ -355,6 +375,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                 if (Directory.Exists(filename))
                 {
                     var media = GetMediaFiles(filename);
+                    form.CloseMedia();
                     form.ClearPlaylist();
                     form.AddFiles(media.ToArray());
                     form.SetPlaylistIndex(0);
@@ -395,6 +416,7 @@ namespace Mpdn.PlayerExtensions.Playlist
         public bool RememberPlaylist { get; set; }
         public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public Rectangle WindowBounds { get; set; }
+        public List<int> ColumnBounds { get; set; }
         public List<string> RememberedFiles { get; set; }
         public string PlaylistPathDisplay { get; set; }
 

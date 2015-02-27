@@ -101,6 +101,8 @@ namespace Mpdn.PlayerExtensions.Playlist
             dgv_PlayList.KeyDown += dgv_Playlist_KeyDown;
             dgv_PlayList.DragOver += dgv_PlayList_DragOver;
             dgv_PlayList.DragDrop += dgv_PlayList_DragDrop;
+            dgv_PlayList.RowsAdded += dgv_PlayList_RowsAdded;
+            dgv_PlayList.RowsRemoved += dgv_PlayList_RowsRemoved;
 
             PlayerControl.PlayerStateChanged += PlayerStateChanged;
             PlayerControl.PlaybackCompleted += PlaybackCompleted;
@@ -110,6 +112,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             PlayerControl.ExitedFullScreenMode += ExitedFullScreenMode;
 
             Playlist = new List<PlaylistItem>();
+            SetButtonStates();
         }
 
         public void ClearPlaylist()
@@ -621,7 +624,6 @@ namespace Mpdn.PlayerExtensions.Playlist
                     if (Directory.Exists(filename))
                     {
                         var media = playListUi.GetMediaFiles(filename);
-                        ClearPlaylist();
                         AddFiles(media.ToArray());
                         return;
                     }
@@ -649,6 +651,59 @@ namespace Mpdn.PlayerExtensions.Playlist
                 Playlist.Insert(destinationRow, playItem);
                 PopulatePlaylist();
                 dgv_PlayList.CurrentCell = dgv_PlayList.Rows[destinationRow].Cells[1];
+            }
+        }
+
+        void dgv_PlayList_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            SetButtonStates();
+        }
+
+        private void dgv_PlayList_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            SetButtonStates();
+        }
+
+        private void SetButtonStates()
+        {
+            if (Playlist.Count > 1)
+            {
+                buttonLeft.Enabled = true;
+                buttonRight.Enabled = true;
+                nextItemToolStripMenuItem.Enabled = true;
+                previousItemToolStripMenuItem.Enabled = true;
+                buttonLeft.BackgroundImage = buttonLeftEnabled.BackgroundImage;
+                buttonRight.BackgroundImage = buttonRightEnabled.BackgroundImage;
+            }
+            else
+            {
+                buttonLeft.Enabled = false;
+                buttonRight.Enabled = false;
+                nextItemToolStripMenuItem.Enabled = false;
+                previousItemToolStripMenuItem.Enabled = false;
+                buttonLeft.BackgroundImage = buttonLeftDisabled.BackgroundImage;
+                buttonRight.BackgroundImage = buttonRightDisabled.BackgroundImage;
+            }
+
+            if (Playlist.Count > 0)
+            {
+                buttonNew.Enabled = true;
+                buttonSave.Enabled = true;
+                newPlaylistToolStripMenuItem.Enabled = true;
+                savePlaylistToolStripMenuItem.Enabled = true;
+                playFileToolStripMenuItem.Enabled = true;
+                buttonNew.BackgroundImage = buttonNewEnabled.BackgroundImage;
+                buttonSave.BackgroundImage = buttonSaveEnabled.BackgroundImage;
+            }
+            else
+            {
+                buttonNew.Enabled = false;
+                buttonSave.Enabled = false;
+                newPlaylistToolStripMenuItem.Enabled = false;
+                savePlaylistToolStripMenuItem.Enabled = false;
+                playFileToolStripMenuItem.Enabled = false;
+                buttonNew.BackgroundImage = buttonNewDisabled.BackgroundImage;
+                buttonSave.BackgroundImage = buttonSaveDisabled.BackgroundImage;
             }
         }
 
@@ -1052,6 +1107,11 @@ namespace Mpdn.PlayerExtensions.Playlist
             }
         }
 
+        public DataGridView GetDgvPlaylist()
+        {
+            return dgv_PlayList;
+        }
+
         private void ButtonAddClick(object sender, EventArgs e)
         {
             AddFilesToPlaylist();
@@ -1104,6 +1164,13 @@ namespace Mpdn.PlayerExtensions.Playlist
             playListUi.ShowConfigDialog(this);
             playListUi.Reinitialize();
             PopulatePlaylist();
+        }
+
+        private void PlayFileToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (dgv_PlayList.Rows.Count <= 0) return;
+            currentPlayIndex = dgv_PlayList.CurrentRow.Index;
+            OpenMedia();
         }
 
         private void FormKeyDown(object sender, KeyEventArgs e)

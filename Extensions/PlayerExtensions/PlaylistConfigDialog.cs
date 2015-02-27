@@ -8,13 +8,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         public PlaylistConfigDialog()
         {
             InitializeComponent();
-            Setup();
-        }
-
-        private void Setup()
-        {
-            var tt = new ToolTip();
-            tt.SetToolTip(btn_clearRememberedFiles, "Clear previously remembered file(s)");
         }
 
         protected override void LoadSettings()
