@@ -351,7 +351,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             if (foundFile != null) return;
 
             ResetActive();
-            var item = new PlaylistItem(fileName, true);
+            var item = new PlaylistItem(fileName, true) { EndChapter = -1 };
             Playlist.Add(item);
             CurrentItem = item;
             PopulatePlaylist();
