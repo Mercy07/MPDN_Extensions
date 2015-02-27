@@ -212,6 +212,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.buttonNewEnabled.Name = "buttonNewEnabled";
             this.buttonNewEnabled.Size = new System.Drawing.Size(24, 25);
             this.buttonNewEnabled.ToolTipText = "New playlist";
+            this.buttonNewEnabled.Visible = false;
             // 
             // buttonSaveEnabled
             // 
@@ -222,6 +223,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.buttonSaveEnabled.Name = "buttonSaveEnabled";
             this.buttonSaveEnabled.Size = new System.Drawing.Size(24, 25);
             this.buttonSaveEnabled.ToolTipText = "Save playlist";
+            this.buttonSaveEnabled.Visible = false;
             // 
             // buttonLeftDisabled
             // 
