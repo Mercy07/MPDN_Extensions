@@ -24,6 +24,8 @@ namespace Mpdn.PlayerExtensions.Playlist
         private bool firstShow = true;
         private bool wasShowing;
 
+        private bool columnsFixed = false;
+
         public List<PlaylistItem> Playlist { get; set; }
         public PlaylistItem CurrentItem { get; set; }
 
@@ -31,14 +33,20 @@ namespace Mpdn.PlayerExtensions.Playlist
         private int selectedRowIndex = -1;
         private long previousChapterPosition;
 
+        private bool isDragging;
         private Rectangle dragRowRect;
         private int dragRowIndex;
+
+        private int titleCellIndex = 4;
+        private int skipCellIndex = 5;
+        private int endCellIndex = 6;
 
         public Rectangle WindowBounds { get; set; }
         public bool RememberWindowBounds { get; set; }
         public bool AutomaticallyPlayFileOnStartup { get; set; }
         public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public string PlaylistPathDisplay { get; set; }
+        public List<string> Columns { get; set; }
 
         public event EventHandler PlaylistChanged;
 
@@ -91,6 +99,9 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.playListUi = playListUi;
             Icon = PlayerControl.ApplicationIcon;
 
+            Shown += PlaylistForm_Shown;
+            ResizeBegin += PlaylistForm_ResizeBegin;
+
             dgv_PlayList.CellFormatting += dgv_PlayList_CellFormatting;
             dgv_PlayList.CellPainting += dgv_PlayList_CellPainting;
             dgv_PlayList.CellDoubleClick += dgv_PlayList_CellDoubleClick;
@@ -98,6 +109,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             dgv_PlayList.EditingControlShowing += dgv_PlayList_EditingControlShowing;
             dgv_PlayList.MouseMove += dgv_PlayList_MouseMove;
             dgv_PlayList.MouseDown += dgv_PlayList_MouseDown;
+            dgv_PlayList.MouseUp += dgv_PlayList_MouseUp;
             dgv_PlayList.KeyDown += dgv_Playlist_KeyDown;
             dgv_PlayList.DragOver += dgv_PlayList_DragOver;
             dgv_PlayList.DragDrop += dgv_PlayList_DragDrop;
@@ -112,7 +124,44 @@ namespace Mpdn.PlayerExtensions.Playlist
             PlayerControl.ExitedFullScreenMode += ExitedFullScreenMode;
 
             Playlist = new List<PlaylistItem>();
-            SetButtonStates();
+            SetControlStates();
+        }
+
+        void PlaylistForm_ResizeBegin(object sender, EventArgs e)
+        {
+            SetPlaylistToFill();
+        }
+
+        void PlaylistForm_Shown(object sender, EventArgs e)
+        {
+            if (Columns != null && Columns.Count > 0)
+            {
+                SetColumnSize();
+            }
+        }
+
+        private void SetColumnSize()
+        {
+            if (!columnsFixed)
+            {
+                for (int i = 0; i < dgv_PlayList.Columns.Count; i++)
+                {
+                    var c = dgv_PlayList.Columns[i];
+                    string[] split = Columns[i].Split('|');
+                    if (split[0] == c.Name)
+                    {
+                        if (split[0] != "Title")
+                        {
+                            c.Visible = Convert.ToBoolean(split[1]);
+                        }
+
+                        c.Width = int.Parse(split[2]);
+                        c.FillWeight = int.Parse(split[2]);
+                    }
+                }
+
+                columnsFixed = true;
+            }
         }
 
         public void ClearPlaylist()
@@ -126,49 +175,32 @@ namespace Mpdn.PlayerExtensions.Playlist
             dgv_PlayList.Rows.Clear();
             if (Playlist.Count == 0) return;
 
-            if (PlaylistPathDisplay == "FullPath")
+            int fileCount = 1;
+
+            foreach (var i in Playlist)
             {
-                foreach (var i in Playlist)
+                string path = Path.GetDirectoryName(i.FilePath);
+                string directory = path.Substring(path.LastIndexOf("\\") + 1);
+                string file = Path.GetFileName(i.FilePath);
+
+                if (i.SkipChapters != null)
                 {
-                    if (i.SkipChapters != null)
+                    if (i.EndChapter != -1)
                     {
-                        if (i.EndChapter != -1)
-                        {
-                            dgv_PlayList.Rows.Add(new Bitmap(25, 25), i.FilePath, String.Join(",", i.SkipChapters),
-                                i.EndChapter);
-                        }
-                        else
-                        {
-                            dgv_PlayList.Rows.Add(new Bitmap(25, 25), i.FilePath, String.Join(",", i.SkipChapters));
-                        }
+                        dgv_PlayList.Rows.Add(new Bitmap(25, 25), fileCount, path, directory, file, String.Join(",", i.SkipChapters),
+                            i.EndChapter);
                     }
                     else
                     {
-                        dgv_PlayList.Rows.Add(new Bitmap(25, 25), i.FilePath);
+                        dgv_PlayList.Rows.Add(new Bitmap(25, 25), fileCount, path, directory, file, String.Join(",", i.SkipChapters));
                     }
                 }
-            }
-            else
-            {
-                foreach (var i in Playlist)
+                else
                 {
-                    if (i.SkipChapters != null)
-                    {
-                        if (i.EndChapter != -1)
-                        {
-                            dgv_PlayList.Rows.Add(new Bitmap(25, 25), Path.GetFileName(i.FilePath), String.Join(",", i.SkipChapters),
-                                i.EndChapter);
-                        }
-                        else
-                        {
-                            dgv_PlayList.Rows.Add(new Bitmap(25, 25), Path.GetFileName(i.FilePath), String.Join(",", i.SkipChapters));
-                        }
-                    }
-                    else
-                    {
-                        dgv_PlayList.Rows.Add(new Bitmap(25, 25), Path.GetFileName(i.FilePath));
-                    }
+                    dgv_PlayList.Rows.Add(new Bitmap(25, 25), fileCount, path, directory, file);
                 }
+
+                fileCount++;
             }
 
             currentPlayIndex = (Playlist.FindIndex(i => i.Active) > -1) ? Playlist.FindIndex(i => i.Active) : -1;
@@ -391,7 +423,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                 selectedRowIndex = Playlist.Count - 1;
             }
 
-            dgv_PlayList.CurrentCell = dgv_PlayList.Rows[selectedRowIndex].Cells[1];
+            dgv_PlayList.CurrentCell = dgv_PlayList.Rows[selectedRowIndex].Cells[titleCellIndex];
 
             if (!AutomaticallyPlayFileOnStartup) return;
 
@@ -478,8 +510,8 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         void dgv_PlayList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            var skipChapterCell = dgv_PlayList.Rows[e.RowIndex].Cells[2];
-            var endChapterCell = dgv_PlayList.Rows[e.RowIndex].Cells[3];
+            var skipChapterCell = dgv_PlayList.Rows[e.RowIndex].Cells[skipCellIndex];
+            var endChapterCell = dgv_PlayList.Rows[e.RowIndex].Cells[endCellIndex];
 
             if (skipChapterCell.IsInEditMode || endChapterCell.IsInEditMode)
             {
@@ -517,9 +549,11 @@ namespace Mpdn.PlayerExtensions.Playlist
         private void dgv_PlayList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgv_PlayList.Rows.Count <= 0) return;
-            if (e.ColumnIndex > 1) return;
-            currentPlayIndex = e.RowIndex;
-            OpenMedia();
+            if (e.ColumnIndex == titleCellIndex)
+            {
+                currentPlayIndex = e.RowIndex;
+                OpenMedia();
+            }
         }
 
         private void dgv_PlayList_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -541,7 +575,7 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         private void dgv_PlayList_HandleInput(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != ' ' && dgv_PlayList.CurrentCell.ColumnIndex == 2)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != ' ' && dgv_PlayList.CurrentCell.ColumnIndex == skipCellIndex)
             {
                 var toolTip = new ToolTip();
                 var cell = dgv_PlayList.CurrentCell;
@@ -554,7 +588,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                 e.Handled = true;
             }
 
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && dgv_PlayList.CurrentCell.ColumnIndex == 3)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && dgv_PlayList.CurrentCell.ColumnIndex == endCellIndex)
             {
                 var toolTip = new ToolTip();
                 var cell = dgv_PlayList.CurrentCell;
@@ -572,7 +606,7 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             if (Playlist.Count < 2) return;
             if (e.Button != MouseButtons.Left) return;
-            if (dragRowRect != Rectangle.Empty && !dragRowRect.Contains(e.X, e.Y))
+            if (dragRowRect != Rectangle.Empty && !dragRowRect.Contains(e.X, e.Y) && isDragging)
             {
                 dgv_PlayList.DoDragDrop(dgv_PlayList.Rows[dragRowIndex], DragDropEffects.Move);
             }
@@ -584,17 +618,46 @@ namespace Mpdn.PlayerExtensions.Playlist
 
             if (dragRowIndex != -1)
             {
+                isDragging = true;
                 var dragSize = SystemInformation.DragSize;
                 dragRowRect = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    dgv_PlaylistContextMenu.Show(Cursor.Position);
+                }
             }
             else
             {
                 dragRowRect = Rectangle.Empty;
+                SetPlaylistToFill();
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    SetColumnStates();
+                    dgv_PlaylistColumnContextMenu.Show(Cursor.Position);
+                }
+            }
+        }
+
+        void dgv_PlayList_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragRowIndex = dgv_PlayList.HitTest(e.X, e.Y).RowIndex;
+
+            if (dragRowIndex != -1)
+            {
+                isDragging = false;
             }
         }
 
         void dgv_Playlist_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
+
             if (e.KeyCode == Keys.Delete)
             {
                 RemoveSelectedItems();
@@ -636,7 +699,7 @@ namespace Mpdn.PlayerExtensions.Playlist
 
                 var actualFiles = files.Where(file => !Directory.Exists(file)).Where(file => openFileDialog.Filter.Contains(Path.GetExtension(file)));
                 AddFiles(actualFiles.ToArray());
-                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[dgv_PlayList.Rows.Count - 1].Cells[1];
+                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[dgv_PlayList.Rows.Count - 1].Cells[titleCellIndex];
                 SetPlayStyling();
             }
             else if (e.Data.GetDataPresent(typeof(DataGridViewRow)))
@@ -650,21 +713,21 @@ namespace Mpdn.PlayerExtensions.Playlist
                 NotifyPlaylistChanged();
                 Playlist.Insert(destinationRow, playItem);
                 PopulatePlaylist();
-                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[destinationRow].Cells[1];
+                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[destinationRow].Cells[titleCellIndex];
             }
         }
 
         void dgv_PlayList_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            SetButtonStates();
+            SetControlStates();
         }
 
         private void dgv_PlayList_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            SetButtonStates();
+            SetControlStates();
         }
 
-        private void SetButtonStates()
+        private void SetControlStates()
         {
             if (Playlist.Count > 1)
             {
@@ -689,22 +752,51 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 buttonNew.Enabled = true;
                 buttonSave.Enabled = true;
+                buttonDel.Enabled = true;
                 newPlaylistToolStripMenuItem.Enabled = true;
                 savePlaylistToolStripMenuItem.Enabled = true;
                 playFileToolStripMenuItem.Enabled = true;
+                removeFilesToolStripMenuItem.Enabled = true;
                 buttonNew.BackgroundImage = buttonNewEnabled.BackgroundImage;
                 buttonSave.BackgroundImage = buttonSaveEnabled.BackgroundImage;
+                buttonDel.BackgroundImage = buttonDelEnabled.BackgroundImage;
             }
             else
             {
                 buttonNew.Enabled = false;
                 buttonSave.Enabled = false;
+                buttonDel.Enabled = false;
                 newPlaylistToolStripMenuItem.Enabled = false;
                 savePlaylistToolStripMenuItem.Enabled = false;
                 playFileToolStripMenuItem.Enabled = false;
+                removeFilesToolStripMenuItem.Enabled = false;
                 buttonNew.BackgroundImage = buttonNewDisabled.BackgroundImage;
                 buttonSave.BackgroundImage = buttonSaveDisabled.BackgroundImage;
+                buttonDel.BackgroundImage = buttonDelDisabled.BackgroundImage;
             }
+        }
+        private void SetPlaylistToFill()
+        {
+            foreach (DataGridViewColumn c in dgv_PlayList.Columns)
+            {
+                if (c.Name != "Playing")
+                {
+                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+        }
+
+        private void SetColumnStates()
+        {
+            numberToolStripMenuItem.Checked = Number.Visible;
+            directoryToolStripMenuItem.Checked = CurrentDirectory.Visible;
+            fullPathToolStripMenuItem.Checked = FullPath.Visible;
+            skipChaptersToolStripMenuItem.Checked = SkipChapters.Visible;
+            endChapterToolStripMenuItem.Checked = EndChapter.Visible;
+
+            titleCellIndex = Title.Index;
+            skipCellIndex = SkipChapters.Index;
+            endCellIndex = EndChapter.Index;
         }
 
         private void PlayerStateChanged(object sender, PlayerStateEventArgs e)
@@ -778,8 +870,8 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 for (int i = 0; i < dgv_PlayList.Rows.Count; i++)
                 {
-                    var skipChapterCell = dgv_PlayList.Rows[i].Cells[2];
-                    var endChapterCell = dgv_PlayList.Rows[i].Cells[3];
+                    var skipChapterCell = dgv_PlayList.Rows[i].Cells[skipCellIndex];
+                    var endChapterCell = dgv_PlayList.Rows[i].Cells[endCellIndex];
 
                     if (skipChapterCell.Value != null && skipChapterCell.Value.ToString() != "")
                     {
@@ -857,8 +949,8 @@ namespace Mpdn.PlayerExtensions.Playlist
                     var skipChapters = new List<int>();
                     int endChapter = -1;
 
-                    var skipChapterCell = dgv_PlayList.Rows[i].Cells[2];
-                    var endChapterCell = dgv_PlayList.Rows[i].Cells[3];
+                    var skipChapterCell = dgv_PlayList.Rows[i].Cells[skipCellIndex];
+                    var endChapterCell = dgv_PlayList.Rows[i].Cells[endCellIndex];
 
                     if (skipChapterCell.Value != null && skipChapterCell.Value.ToString() != "")
                     {
@@ -945,7 +1037,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             {
                 var item = Playlist[currentPlayIndex];
                 SetPlayStyling();
-                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[currentPlayIndex].Cells[1];
+                dgv_PlayList.CurrentCell = dgv_PlayList.Rows[currentPlayIndex].Cells[titleCellIndex];
 
                 if (File.Exists(item.FilePath))
                 {
@@ -1036,7 +1128,7 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         public void FocusPlaylistItem(int index)
         {
-            dgv_PlayList.CurrentCell = dgv_PlayList.Rows[index].Cells[1];
+            dgv_PlayList.CurrentCell = dgv_PlayList.Rows[index].Cells[titleCellIndex];
         }
 
         public void FocusPlaylist()
@@ -1099,7 +1191,7 @@ namespace Mpdn.PlayerExtensions.Playlist
                     selectedRowIndex = Playlist.Count - 1;
                 }
 
-                dgv_PlayList.CurrentCell = Playlist.Count > 0 ? dgv_PlayList.Rows[selectedRowIndex].Cells[1] : dgv_PlayList.CurrentCell = null;
+                dgv_PlayList.CurrentCell = Playlist.Count > 0 ? dgv_PlayList.Rows[selectedRowIndex].Cells[titleCellIndex] : dgv_PlayList.CurrentCell = null;
             }
             catch (Exception ex)
             {
@@ -1163,7 +1255,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         {
             playListUi.ShowConfigDialog(this);
             playListUi.Reinitialize();
-            PopulatePlaylist();
         }
 
         private void PlayFileToolStripMenuItemClick(object sender, EventArgs e)
@@ -1189,6 +1280,19 @@ namespace Mpdn.PlayerExtensions.Playlist
                     e.SuppressKeyPress = true;
                 }
             }
+        }
+
+        private void UpdateColumns(object sender, EventArgs e)
+        {
+            Number.Visible = numberToolStripMenuItem.Checked;
+            FullPath.Visible = fullPathToolStripMenuItem.Checked;
+            CurrentDirectory.Visible = directoryToolStripMenuItem.Checked;
+            SkipChapters.Visible = skipChaptersToolStripMenuItem.Checked;
+            EndChapter.Visible = endChapterToolStripMenuItem.Checked;
+
+            titleCellIndex = Title.Index;
+            skipCellIndex = SkipChapters.Index;
+            endCellIndex = EndChapter.Index;
         }
     }
 

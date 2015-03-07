@@ -60,23 +60,15 @@ namespace Mpdn.PlayerExtensions.Playlist
                 form.RememberWindowBounds = Settings.RememberWindowBounds;
                 form.WindowBounds = Settings.WindowBounds;
 
-                if (Settings.ColumnBounds != null && Settings.ColumnBounds.Count > 0)
+                if (Settings.Columns != null && Settings.Columns.Count > 0)
                 {
-                    for (int i = 0; i < form.GetDgvPlaylist().Columns.Count; i++)
-                    {
-                        form.GetDgvPlaylist().Columns[i].Width = Settings.ColumnBounds[i];
-                    }
+                    form.Columns = Settings.Columns;
                 }
             }
 
             if (Settings.ShowPlaylistOnStartup)
             {
                 form.Show(PlayerControl.VideoPanel);
-            }
-
-            if (!String.IsNullOrEmpty(Settings.PlaylistPathDisplay))
-            {
-                form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
             }
 
             if (Settings.AutomaticallyPlayFileOnStartup)
@@ -129,7 +121,6 @@ namespace Mpdn.PlayerExtensions.Playlist
 
         public void Reinitialize()
         {
-            form.PlaylistPathDisplay = Settings.PlaylistPathDisplay;
             form.PlayNextFileInDirectoryAfterPlayback = Settings.PlayNextFileInDirectoryAfterPlayback;
             form.AutomaticallyPlayFileOnStartup = Settings.AutomaticallyPlayFileOnStartup;
         }
@@ -215,11 +206,13 @@ namespace Mpdn.PlayerExtensions.Playlist
 
             if (form.Visible)
             {
-                Settings.ColumnBounds.Clear();
+                Settings.Columns.Clear();
 
                 for (int i = 0; i < form.GetDgvPlaylist().Columns.Count; i++)
                 {
-                    Settings.ColumnBounds.Add(form.GetDgvPlaylist().Columns[i].Width);
+                    var c = form.GetDgvPlaylist().Columns[i];
+                    Settings.Columns.Add(c.Name + "|"
+                        + c.Visible + "|" + c.Width);
                 }
             }
 
@@ -421,9 +414,8 @@ namespace Mpdn.PlayerExtensions.Playlist
         public bool RememberPlaylist { get; set; }
         public bool PlayNextFileInDirectoryAfterPlayback { get; set; }
         public Rectangle WindowBounds { get; set; }
-        public List<int> ColumnBounds { get; set; }
+        public List<string> Columns { get; set; }
         public List<string> RememberedFiles { get; set; }
-        public string PlaylistPathDisplay { get; set; }
 
         public PlaylistSettings()
         {
@@ -433,7 +425,8 @@ namespace Mpdn.PlayerExtensions.Playlist
             RememberWindowBounds = false;
             RememberPlaylist = false;
             PlayNextFileInDirectoryAfterPlayback = false;
-            ColumnBounds = new List<int>();
+            Columns = new List<string>();
+            RememberedFiles = new List<string>();
         }
     }
 }

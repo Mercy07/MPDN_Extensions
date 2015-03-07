@@ -39,13 +39,9 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.cb_rememberWindowBounds = new System.Windows.Forms.CheckBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rb_displayFileNameOnly = new System.Windows.Forms.RadioButton();
-            this.rb_displayFullPath = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -126,7 +122,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             // btn_save
             // 
             this.btn_save.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btn_save.Location = new System.Drawing.Point(22, 146);
+            this.btn_save.Location = new System.Drawing.Point(19, 71);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(75, 23);
             this.btn_save.TabIndex = 1;
@@ -136,46 +132,12 @@ namespace Mpdn.PlayerExtensions.Playlist
             // btn_cancel
             // 
             this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_cancel.Location = new System.Drawing.Point(99, 146);
+            this.btn_cancel.Location = new System.Drawing.Point(96, 71);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_cancel.TabIndex = 2;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.rb_displayFileNameOnly);
-            this.groupBox2.Controls.Add(this.rb_displayFullPath);
-            this.groupBox2.Location = new System.Drawing.Point(12, 73);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(171, 67);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Playlist display";
-            // 
-            // rb_displayFileNameOnly
-            // 
-            this.rb_displayFileNameOnly.AutoSize = true;
-            this.rb_displayFileNameOnly.Checked = true;
-            this.rb_displayFileNameOnly.Location = new System.Drawing.Point(7, 41);
-            this.rb_displayFileNameOnly.Name = "rb_displayFileNameOnly";
-            this.rb_displayFileNameOnly.Size = new System.Drawing.Size(123, 17);
-            this.rb_displayFileNameOnly.TabIndex = 1;
-            this.rb_displayFileNameOnly.TabStop = true;
-            this.rb_displayFileNameOnly.Text = "Display filename only";
-            this.rb_displayFileNameOnly.UseVisualStyleBackColor = true;
-            // 
-            // rb_displayFullPath
-            // 
-            this.rb_displayFullPath.AutoSize = true;
-            this.rb_displayFullPath.Location = new System.Drawing.Point(7, 19);
-            this.rb_displayFullPath.Name = "rb_displayFullPath";
-            this.rb_displayFullPath.Size = new System.Drawing.Size(99, 17);
-            this.rb_displayFullPath.TabIndex = 0;
-            this.rb_displayFullPath.TabStop = true;
-            this.rb_displayFullPath.Text = "Display full path";
-            this.rb_displayFullPath.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -204,7 +166,6 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.ClientSize = new System.Drawing.Size(444, 178);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.groupBox1);
@@ -218,8 +179,6 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.Text = "Playlist Configuration";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,9 +195,6 @@ namespace Mpdn.PlayerExtensions.Playlist
         private System.Windows.Forms.CheckBox cb_automaticallyPlayFileOnStartup;
         private System.Windows.Forms.CheckBox cb_showPlaylistOnStartup;
         private System.Windows.Forms.CheckBox cb_playNextFileInDirectoryAfterPlayback;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton rb_displayFileNameOnly;
-        private System.Windows.Forms.RadioButton rb_displayFullPath;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }
