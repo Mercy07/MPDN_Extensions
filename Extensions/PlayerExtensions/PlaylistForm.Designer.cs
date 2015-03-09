@@ -458,6 +458,7 @@ namespace Mpdn.PlayerExtensions.Playlist
             this.FullPath.MinimumWidth = 100;
             this.FullPath.Name = "FullPath";
             this.FullPath.ReadOnly = true;
+            this.FullPath.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.FullPath.Width = 275;
             // 
             // CurrentDirectory

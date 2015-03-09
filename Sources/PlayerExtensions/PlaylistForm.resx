@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonAdd.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAedJREFUOE9j
@@ -345,6 +345,26 @@
         +h234PABDWtX0jITDLhl1rjrOHjjyc4MDACAFyXItiz9mQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="buttonDelDisabled.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAADoSURBVDhPpY47CoNAEEBzHgs1
+        pAgIQTHXsLEQC0VExf8PFRHv6ZZ7hcm4hWmmyJLirfBmfTs3APgLUspAShlIKQMpZSClDOJQFOXlOA5z
+        XZf5vs/CMGRpmrI8z1lZlqyqKpZlGYvj+Iii6MD5YRjG/Qqoqvr2PA+CIIAkSaBtWxjHEZZlgXVdBfM8
+        C980DWAQLMt6XgFd19/4MmAdiqKAruvED9u2wb7v4ntG+r4XszNk2/Y3oGmaiRtwXI3jqhxf4HiZT9PE
+        cQuOMT4MA6/rWnDOTdN8XIF/IKUMpJSBlDKQUgZS/g7cPnQqzf1PFFVOAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="buttonDelEnabled.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQ9JREFUOE9j
+        GAWDBUhY+doaNKx9Ztm26Zljz/ZnnpP3PAuedehZ+LxjzyIXnHgWuejUs4C5x595zDz61HnG0af20489
+        1fRPMYRqZ2CQcQhxNuw79N966on/bnPP/Q9efv1/1Nrb/xM23v+fuOXh/4Stj/9HbXr033f13f+eq+7/
+        d1n54L9+eI45VDsDg7xTqLPxhKP/7Wac/u+z6PL/sFU3/8dvuPs/bevD/xk7nvxP2fH0f9y2p/8D1z34
+        77P20X+PtY//G0XmIQxQsA+0t+ze9c558oF3AXOOv4tYfOZdworz79LXXn6Xuf7qu9R1197Frbn6LmTZ
+        5XeBy6++811+7Z1haIYxVPsoGGDAwAAAp6yK4a0IcdcAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="buttonNew.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAgBJREFUOE+d
@@ -407,22 +427,34 @@
         rTd9Cf9+9KR8AxfYNKf5nBBBAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="timer.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>133, 17</value>
-  </data>
-  <data name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>213, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog.Filter" xml:space="preserve">
     <value>Media files (all types) (*.avi; *.mp4; *.mkv; ...) |*.avi; *.mpg; *.mpeg; *.mpe; *.m1v; *.m2v; *.mpv2; *.mp2v; *.pva; *.evo; *.m2p; *.ts; *.tp; *.trp; *.m2t; *.m2ts; *.mts; *.rec; *.vob; *.mkv; *.webm; *.mp4; *.m4v; *.mp4v; *.mpv4; *.hdmov; *.mov; *.3gp; *.3gpp; *.3g2; *.3gp2; *.flv; *.f4v; *.ogm; *.ogv; *.rm; *.ram; *.rpm; *.rmm; *.rt; *.rp; *.smi; *.smil; *.wmv; *.wmp; *.wm; *.asf; *.smk; *.bik; *.fli; *.flc; *.flic; *.dsm; *.dsv; *.dsa; *.dss; *.ivf; *.swf; *.divx; *.rmvb; *.amv; *.ac3; *.dts; *.aif; *.aifc; *.aiff; *.alac; *.amr; *.ape; *.apl; *.au; *.snd; *.cda; *.flac; *.m4a; *.m4b; *.aac; *.mid; *.midi; *.rmi; *.mka; *.mp3; *.mpa; *.mp2; *.m1a; *.m2a; *.mpc; *.ofr; *.ofs; *.ogg; *.oga; *.opus; *.ra; *.tta; *.wav; *.wma; *.wv; *.aob; *.mlp; *.asx; *.m3u; *.m3u8; *.wvx; *.wax; *.wmx; *.bdmv|All files (*.*)|*.*</value>
   </data>
-  <data name="openPlaylistDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openPlaylistDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>346, 17</value>
-  </data>
-  <data name="savePlaylistDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="savePlaylistDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>499, 17</value>
-  </data>
-  <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="Number.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="FullPath.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CurrentDirectory.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="dgv_PlaylistContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>647, 17</value>
-  </data>
+  </metadata>
+  <metadata name="dgv_PlaylistColumnContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>832, 17</value>
+  </metadata>
 </root>
